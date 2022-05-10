@@ -17,7 +17,8 @@ public class Zombie {
 	private int height;
 	private Color color;
 	private int HP;
-	
+	private int xEnd;
+	private int yEnd;
 	private Image img; 	
 	private AffineTransform tx;
 	
@@ -68,6 +69,8 @@ public class Zombie {
 	public Zombie(int x, int y) {
 		this.x = x;
 		this.y = y;
+		xEnd = x + 56;
+		yEnd = y + 94;
 		HP = 100;
 		
 		img = getImage("ZombieFront-01.png"); 
@@ -82,7 +85,8 @@ public class Zombie {
 		
 		x += vx;
 		y += vy;
-		
+		xEnd = x + 56;
+		yEnd = y + 94;
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawImage(img, tx, null);
 		g.setColor(Color.red);
@@ -94,12 +98,15 @@ public class Zombie {
 	private void update() {
 		tx.setToTranslation(x, y);
 		tx.scale(0.03,.03);
-		
+		xEnd = x + 56;
+		yEnd = y + 94;
 	}
 	
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
 		tx.scale(.03,.03);
+		xEnd = x + 56;
+		yEnd = y + 94;
 	}
 	
 	private Image getImage(String path) {

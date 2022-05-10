@@ -23,6 +23,8 @@ public class Guns {
 	private int vy;
 	private int time = 0;
 	private String direction;
+	private int xEnd;
+	private int yEnd;
 
 	
 	public Guns() {
@@ -57,8 +59,24 @@ public class Guns {
 		img = in;
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
-				
-		
+		xEnd = x + (int)(852/0.05);
+		yEnd = y + (int)(178/0.05);
+	}
+
+	public int getxEnd() {
+		return xEnd;
+	}
+
+	public void setxEnd(int xEnd) {
+		this.xEnd = xEnd;
+	}
+
+	public int getyEnd() {
+		return yEnd;
+	}
+
+	public void setyEnd(int yEnd) {
+		this.yEnd = yEnd;
 	}
 
 	public int getX() {
@@ -90,6 +108,8 @@ public class Guns {
 	}
 	
 	public void paint(Graphics g) {
+		xEnd = x + (int)(852/0.05);
+		yEnd = y + (int)(178/0.05);
 		
 		Graphics2D g2 = (Graphics2D) g;
 		if (direction.equals("right")) {
@@ -186,12 +206,15 @@ public class Guns {
 	private void update() {
 		tx.setToTranslation(x, y);
 		tx.scale(0.05, 0.05);
-
+		xEnd = x + (int)(852/0.05);
+		yEnd = y + (int)(178/0.05);
 	}
 
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
 		tx.scale(0.05, 0.05);
+		xEnd = x + (int)(852/0.05);
+		yEnd = y + (int)(178/0.05);
 	}
 	
 	protected static Image getImage(String path) {

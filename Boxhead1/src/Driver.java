@@ -68,33 +68,59 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 
 		//spawn zombie
 		for(Zombie thisZomb : zombies) {
-			thisZomb.paint(g);
-
-			if(Math.abs(p1.getX() - thisZomb.getX()) < 20){
-				thisZomb.setVX(0);
-			} else {
-				if(p1.getX() < thisZomb.getX() ) {
-				thisZomb.setVX(-1);
-				//System.out.println("move left");
-			}
 			
-			if(p1.getX() > thisZomb.getX()) {
-				thisZomb.setVX(1);
-				//System.out.println("move right");
-			} 
+			thisZomb.paint(g);
+			
+		
+	}
+	
+	for(Zombie thisZomb : zombies) {
+		if(Math.abs(p1.getX() - thisZomb.getX()) < 20){
+			thisZomb.setVX(0);
+		} else {
+			if(p1.getX() < thisZomb.getX() ) {
+			thisZomb.setVX(-1);
+			//System.out.println("move left");
+		}
+		
+		if(p1.getX() > thisZomb.getX()) {
+			thisZomb.setVX(1);
+			//System.out.println("move right");
+		} 
+		}
+		if(Math.abs(p1.getY() - thisZomb.getY()) < 20){
+			thisZomb.setVY(0);
+		} else {
+			if(p1.getY() < thisZomb.getY()) {
+			thisZomb.setVY(-1);
+			//System.out.println("move up");
+		} 
+		if(p1.getY() > thisZomb.getY()) {
+			thisZomb.setVY(1);
+			//System.out.println("move down");
+		}
+		
+
+			if (p1.getX() > thisZomb.getX() && p1.getX() < thisZomb.getX() + 40 || p1.getxEnd() > thisZomb.getX() && p1.getxEnd() < thisZomb.getX() + 40) {
+				if (p1.getY() > thisZomb.getY() && p1.getY() < thisZomb.getY() + 60 || p1.getyEnd() > thisZomb.getY() && p1.getyEnd() < thisZomb.getY() + 60) {
+					System.out.println("zombie on player");
+					p1.setHealth(p1.getHealth()-4);
+				}
+				if (p1.getY() < thisZomb.getY() && p1.getyEnd() > thisZomb.getY() + 60) {
+					System.out.println("zombie on player");
+					p1.setHealth(p1.getHealth()-4);
+				}
 			}
-			if(Math.abs(p1.getY() - thisZomb.getY()) < 20){
-				thisZomb.setVY(0);
-			} else {
-				if(p1.getY() < thisZomb.getY()) {
-				thisZomb.setVY(-1);
-				//System.out.println("move up");
-			} 
-			if(p1.getY() > thisZomb.getY()) {
-				thisZomb.setVY(1);
-				//System.out.println("move down");
+			if (p1.getY() > thisZomb.getY() && p1.getY() < thisZomb.getY() + 60|| p1.getyEnd() > thisZomb.getY() && p1.getyEnd() < thisZomb.getY() + 60) {
+			if (p1.getX() < thisZomb.getX() && p1.getxEnd() > thisZomb.getX()+ 40) {
+				System.out.println("zombie on player");
+				p1.setHealth(p1.getHealth()-4);
 			}
-			}
+		}
+			
+	
+}
+
 		//devil code
 				if(Math.abs(p1.getX() - devil.getX()) < 150){
 					devil.setVX(0);
@@ -163,6 +189,10 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 					curGun.fire(40,0,"right");
 					curGun.paint(g);
 					bulDir = "right";
+					
+//					for (Zombie tz : zombies) {
+//						if (curGun.)
+//					}
 					
 				} else {
 					firstShot = System.currentTimeMillis();

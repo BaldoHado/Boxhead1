@@ -91,7 +91,7 @@ public class Player {
 		yEnd = y+110;
 		direction = dir;
 		img = getImage("Player-01.png");
-
+		health = 100;
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
 

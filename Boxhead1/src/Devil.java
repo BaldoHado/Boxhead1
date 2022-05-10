@@ -87,7 +87,8 @@ public class Devil {
 		
 		x += vx;
 		y += vy;
-		
+		xEnd = x+ 29;
+		yEnd = y + 67;
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawImage(img, tx, null);
 		g.setColor(Color.red);
@@ -99,12 +100,16 @@ public class Devil {
 	private void update() {
 		tx.setToTranslation(x, y);
 		tx.scale(2,2);
+		xEnd = x+ 29;
+		yEnd = y + 67;
 		
 	}
 	
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
 		tx.scale(2,2);
+		xEnd = x+ 29;
+		yEnd = y + 67;
 	}
 	
 	private Image getImage(String path) {
