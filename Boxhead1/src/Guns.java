@@ -240,7 +240,7 @@ class Uzi extends Guns{
 
 class Pistol extends Guns{
 	public Pistol() {
-		super(10000,5,5,100,400,"Pistol", getImage("PistolAmmo-01-01.png"));
+		super(10000,2,5,100,400,"Pistol", getImage("PistolAmmo-01-01.png"));
 	}
 	
 }

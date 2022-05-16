@@ -28,6 +28,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 	private ArrayList<AmmoBox> ab = new ArrayList<AmmoBox>();
 	private ArrayList<Guns> guns = new ArrayList<Guns>();
 	private int gunIndex;
+	private int score;
 
 	private boolean firing;
 	private int curDist;
@@ -71,6 +72,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 	    //
 		
 		m.paint(g);
+		g.drawString("YOUR SCORE: " + score, 100, 100);
 		//System.out.println(curGun.getName());
 		p1.setY(p1.getY()+shiftValsY);
 		p1.setX(p1.getX()+shiftValsX);
@@ -259,7 +261,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 								System.out.println("Zombie Hit");
 								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 								zombies.get(j).setHit(true);
-								zombies.get(j).setX(zombies.get(j).getX()+5);
+								zombies.get(j).setX(zombies.get(j).getX()+3);
 							}
 						}
 						if (curGun.getX() < zombies.get(j).getxEnd() && curGun.getX() > zombies.get(j).getX()) {
@@ -267,7 +269,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 								System.out.println("Zombie Hit");
 								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 								zombies.get(j).setHit(true);
-								zombies.get(j).setX(zombies.get(j).getX()+5);
+								zombies.get(j).setX(zombies.get(j).getX()+3);
 							}
 						}
 						if (curGun.getyEnd() > zombies.get(j).getY() && curGun.getyEnd() < zombies.get(j).getyEnd()) {
@@ -275,7 +277,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 								System.out.println("Zombie Hit");
 								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 								zombies.get(j).setHit(true);
-								zombies.get(j).setX(zombies.get(j).getX()+5);
+								zombies.get(j).setX(zombies.get(j).getX()+3);
 							}
 						}
 						if (curGun.getY() > zombies.get(j).getY() && curGun.getY() < zombies.get(j).getyEnd()) {
@@ -283,7 +285,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 								System.out.println("Zombie Hit");
 								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 								zombies.get(j).setHit(true);
-								zombies.get(j).setX(zombies.get(j).getX()+5);
+								zombies.get(j).setX(zombies.get(j).getX()+3);
 							}
 						}
 					}
@@ -322,7 +324,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 								System.out.println("Zombie Hit");
 								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 								zombies.get(j).setHit(true);
-								zombies.get(j).setX(zombies.get(j).getX()-5);
+								zombies.get(j).setX(zombies.get(j).getX()-3);
 							}
 						}
 						if (curGun.getX() < zombies.get(j).getxEnd() && curGun.getX() > zombies.get(j).getX()) {
@@ -330,7 +332,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 								System.out.println("Zombie Hit");
 								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 								zombies.get(j).setHit(true);
-								zombies.get(j).setX(zombies.get(j).getX()-5);
+								zombies.get(j).setX(zombies.get(j).getX()-3);
 							}
 						}
 						if (curGun.getyEnd() > zombies.get(j).getY() && curGun.getyEnd() < zombies.get(j).getyEnd()) {
@@ -338,7 +340,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 								System.out.println("Zombie Hit");
 								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 								zombies.get(j).setHit(true);
-								zombies.get(j).setX(zombies.get(j).getX()-5);
+								zombies.get(j).setX(zombies.get(j).getX()-3);
 							}
 						}
 						if (curGun.getY() > zombies.get(j).getY() && curGun.getY() < zombies.get(j).getyEnd()) {
@@ -346,7 +348,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 								System.out.println("Zombie Hit");
 								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 								zombies.get(j).setHit(true);
-								zombies.get(j).setX(zombies.get(j).getX()-5);
+								zombies.get(j).setX(zombies.get(j).getX()-3);
 							}
 						}
 					}
@@ -389,7 +391,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 								System.out.println("Zombie Hit");
 								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 								zombies.get(j).setHit(true);
-								zombies.get(j).setY(zombies.get(j).getY()+5);
+								zombies.get(j).setY(zombies.get(j).getY()+3);
 							}
 						}
 						if (curGun.getX() < zombies.get(j).getxEnd() && curGun.getX() > zombies.get(j).getX()) {
@@ -397,7 +399,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 								System.out.println("Zombie Hit");
 								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 								zombies.get(j).setHit(true);
-								zombies.get(j).setY(zombies.get(j).getY()+5);
+								zombies.get(j).setY(zombies.get(j).getY()+3);
 							}
 						}
 						if (curGun.getyEnd() > zombies.get(j).getY() && curGun.getyEnd() < zombies.get(j).getyEnd()) {
@@ -405,7 +407,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 								System.out.println("Zombie Hit");
 								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 								zombies.get(j).setHit(true);
-								zombies.get(j).setY(zombies.get(j).getY()+5);
+								zombies.get(j).setY(zombies.get(j).getY()+3);
 							}
 						}
 						if (curGun.getY() > zombies.get(j).getY() && curGun.getY() < zombies.get(j).getyEnd()) {
@@ -413,7 +415,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 								System.out.println("Zombie Hit");
 								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 								zombies.get(j).setHit(true);
-								zombies.get(j).setY(zombies.get(j).getY()+5);
+								zombies.get(j).setY(zombies.get(j).getY()+3);
 							}
 						}
 					}
@@ -455,7 +457,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 								System.out.println("Zombie Hit");
 								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 								zombies.get(j).setHit(true);
-								zombies.get(j).setY(zombies.get(j).getY()-5);
+								zombies.get(j).setY(zombies.get(j).getY()-3);
 							}
 						}
 						if (curGun.getX() < zombies.get(j).getxEnd() && curGun.getX() > zombies.get(j).getX()) {
@@ -463,7 +465,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 								System.out.println("Zombie Hit");
 								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 								zombies.get(j).setHit(true);
-								zombies.get(j).setY(zombies.get(j).getY()-5);
+								zombies.get(j).setY(zombies.get(j).getY()-3);
 							}
 						}
 						if (curGun.getyEnd() > zombies.get(j).getY() && curGun.getyEnd() < zombies.get(j).getyEnd()) {
@@ -471,7 +473,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 								System.out.println("Zombie Hit");
 								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 								zombies.get(j).setHit(true);
-								zombies.get(j).setY(zombies.get(j).getY()-5);
+								zombies.get(j).setY(zombies.get(j).getY()-3);
 							}
 						}
 						if (curGun.getY() > zombies.get(j).getY() && curGun.getY() < zombies.get(j).getyEnd()) {
@@ -479,7 +481,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 								System.out.println("Zombie Hit");
 								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 								zombies.get(j).setHit(true);
-								zombies.get(j).setY(zombies.get(j).getY()-5);
+								zombies.get(j).setY(zombies.get(j).getY()-3);
 							}
 						}
 					}
@@ -509,6 +511,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 			}
 		}
 		if (indexR != -1) {
+			score+= 100;
 			zombies.remove(indexR);
 		}
 		/*
