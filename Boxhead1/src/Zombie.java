@@ -9,51 +9,86 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class Zombie {
-	private int x;
-	private int y;
-	private int vx;
-	private int vy;
+	private double x;
+	private double y;
+	private double vx;
+	private double vy;
 	private int width;
 	private int height;
 	private Color color;
 	private int HP;
-	private int xEnd;
-	private int yEnd;
+	private double xEnd;
+	private double yEnd;
 	private Image img; 	
+	private Image img2;
 	private AffineTransform tx;
+	private AffineTransform tx2;
+	private boolean isHit;
 	
 	
-	public int getX() {
+	public boolean isHit() {
+		return isHit;
+	}
+
+	public void setHit(boolean isHit) {
+		this.isHit = isHit;
+	}
+
+	public double getX() {
 		return x;
 	}
 
-	public void setX(int x) {
+	public void setX(double x) {
 		this.x = x;
 		update();
 	}
 
-	public int getY() {
+	public double getY() {
 		return y;
 	}
 	
-	public int getVX() {
+	public int getHP() {
+		return HP;
+	}
+
+	public void setHP(int hP) {
+		HP = hP;
+	}
+
+	public double getxEnd() {
+		return xEnd;
+	}
+
+	public void setxEnd(double xEnd) {
+		this.xEnd = xEnd;
+	}
+
+	public double getyEnd() {
+		return yEnd;
+	}
+
+	public void setyEnd(double yEnd) {
+		this.yEnd = yEnd;
+	}
+
+	public double getVX() {
 		return vx;
 	} 
-	public void setVX(int vx) {
+	public void setVX(double vx) {
 		this.vx = vx;
 		update();
 	}
 
-	public int getVY() {
+	public double getVY() {
 		return vy;
 	}
 	
-	public void setVY(int vy) {
+	public void setVY(double vy) {
 		this.vy = vy;
 		update();
 	}
 
-	public void setY(int y) {
+	public void setY(double y) {
 		this.y = y;
 		update();
 	}
@@ -72,15 +107,17 @@ public class Zombie {
 		xEnd = x + 56;
 		yEnd = y + 94;
 		HP = 100;
-		
+		isHit = false;
 		img = getImage("ZombieFront-01.png"); 
-
+		img2 = getImage("splatter.gif");
 		tx = AffineTransform.getTranslateInstance(x, y);
+		tx2 =  AffineTransform.getTranslateInstance(x, y);
 		init(x,y); 	
 		
 		
 	}
 	
+	int timer = 0;
 	public void paint(Graphics g) {
 		
 		x += vx;
@@ -89,8 +126,18 @@ public class Zombie {
 		yEnd = y + 94;
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawImage(img, tx, null);
+		if (isHit == true ) {
+			tx2.setToTranslation(x-300, y-210);
+			//tx2.scale(5,5);
+			g2.drawImage(img2,tx2,null);
+			timer+=16;
+			if(timer>=500) {
+			isHit = false;
+			timer = 0;
+			}
+		}
 		g.setColor(Color.red);
-		g.fillRect(x,y-10,60 - HP / 60,5);
+		g.fillRect((int)x,(int)y-10,HP,5);
 		
 		
 	}
