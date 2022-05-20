@@ -33,7 +33,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 	private boolean firing;
 	private int curDist;
 	private long fireTime;
-	private long firstShot;
+	private long firstShot; 
 	private int startBulletX;
 	private int startBulletY;
 	private String bulDir;
