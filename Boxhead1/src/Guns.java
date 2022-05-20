@@ -108,8 +108,8 @@ public class Guns {
 	}
 	
 	public void paint(Graphics g) {
-		xEnd = x + (int)(852/0.05);
-		yEnd = y + (int)(178/0.05);
+		xEnd = x + (int)(852*0.05);
+		yEnd = y + (int)(178*0.05);
 		
 		Graphics2D g2 = (Graphics2D) g;
 		if (direction.equals("right")) {
@@ -240,7 +240,7 @@ class Uzi extends Guns{
 
 class Pistol extends Guns{
 	public Pistol() {
-		super(10000,2,5,100,400,"Pistol", getImage("PistolAmmo-01-01.png"));
+		super(10000,1,5,100,400,"Pistol", getImage("PistolAmmo-01-01.png"));
 	}
 	
 }
@@ -280,7 +280,7 @@ class AkFour extends Guns{
 
 class Rocket extends Guns{
 	public Rocket() {
-		super(5,150,20,3000,300,"Rocket", getImage("RocketAmmo-01.png"));
+		super(1000,150,20,3000,300,"Rocket", getImage("RocketAmmo-01.png"));
 	}
 	
 }

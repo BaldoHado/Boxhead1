@@ -35,6 +35,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 	private long fireTime;
 	private long firstShot;
 	private int startBulletX;
+	private int startBulletY;
 	private String bulDir;
 	//Luke code//
 		private int round = 1;
@@ -57,6 +58,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 	    int rKey = 0;
 	    int uKey = 0;
 	    int bKey = 0;
+
 	    for (int ke : keys) {
 	    	if (ke == 65)  
 	    		lKey++;
@@ -66,13 +68,15 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 	    		rKey++;
 	    	if (ke == 83)
 	    		bKey++;
+	    	if (ke == 32 && System.currentTimeMillis()-firstShot >= fireTime) 
+	    		firing = true;
 	    }
 	    shiftValsX = (-5*(lKey)) + (5*(rKey));
 	    shiftValsY = (-5*(uKey)) + (5*(bKey));
 	    //
 		
 		m.paint(g);
-		g.drawString("YOUR SCORE: " + score, 100, 100);
+		
 		//System.out.println(curGun.getName());
 		p1.setY(p1.getY()+shiftValsY);
 		p1.setX(p1.getX()+shiftValsX);
@@ -108,7 +112,6 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 	
 		for(int i = 0; i < zombies.size();i++) {
 			
-			double rSpeed = (Math.random()*3);
 			
 			zombies.get(i).setVY(randoms);
 			zombies.get(i).setVX(0);
@@ -166,17 +169,17 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 
 			if (p1.getX() > zombies.get(i).getX() && p1.getX() < zombies.get(i).getX() + 40 || p1.getxEnd() > zombies.get(i).getX() && p1.getxEnd() < zombies.get(i).getX() + 40) {
 				if (p1.getY() > zombies.get(i).getY() && p1.getY() < zombies.get(i).getY() + 60 || p1.getyEnd() > zombies.get(i).getY() && p1.getyEnd() < zombies.get(i).getY() + 60) {
-					System.out.println("zombie on player");
+					//System.out.println("zombie on player");
 					p1.setHealth(p1.getHealth()-4);
 				}
 				if (p1.getY() < zombies.get(i).getY() && p1.getyEnd() > zombies.get(i).getY() + 60) {
-					System.out.println("zombie on player");
+					//System.out.println("zombie on player");
 					p1.setHealth(p1.getHealth()-4);
 				}
 			}
 			if (p1.getY() > zombies.get(i).getY() && p1.getY() < zombies.get(i).getY() + 60|| p1.getyEnd() > zombies.get(i).getY() && p1.getyEnd() < zombies.get(i).getY() + 60) {
 			if (p1.getX() < zombies.get(i).getX() && p1.getxEnd() > zombies.get(i).getX()+ 40) {
-				System.out.println("zombie on player");
+				//System.out.println("zombie on player");
 				p1.setHealth(p1.getHealth()-4);
 			}
 			
@@ -216,7 +219,43 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 				p1.paint(g);
 				devil.paint(g);
 				
-			
+				if (p1.getDirection().equals("right")) {
+					if (curGun.getName().equals("Rocket")) {
+						int starXz = (p1.getX()+60 + curGun.getDistance())-50;
+						int enXz = (p1.getX()+60 + curGun.getDistance())+50;
+						int starYz = (p1.getY()+42)-50;
+						int enYz = (p1.getY()+42)+50;
+						g.drawRect(starXz, starYz, (enXz-starXz), (enYz-starYz));
+					}
+				}
+				if (p1.getDirection().equals("left")) {
+					if (curGun.getName().equals("Rocket")) {
+						int starXz = (p1.getX() - curGun.getDistance())-50;
+						int enXz = (p1.getX()- curGun.getDistance())+50;
+						int starYz = (p1.getY()+42)-50;
+						int enYz = (p1.getY()+42)+50;
+						g.drawRect(starXz, starYz, (enXz-starXz), (enYz-starYz));
+					}
+				}
+				if (p1.getDirection().equals("down")) {
+					if (curGun.getName().equals("Rocket")) {
+						int starXz = (p1.getX())+ 50;
+						int enXz = (p1.getX())+50;
+						int starYz = (p1.getY()+70 +curGun.getDistance())-50;
+						int enYz = (p1.getY()+70 + curGun.getDistance())+50;
+						g.drawRect(starXz, starYz, (enXz-starXz), (enYz-starYz));
+					}
+				}
+				if (p1.getDirection().equals("up")) {
+					if (curGun.getName().equals("Rocket")) {
+						int starXz = (p1.getX()+5 )-50;
+						int enXz = (p1.getX()+5)+50;
+						int starYz = (p1.getY()+30- curGun.getDistance())-50;
+						int enYz = (p1.getY()+30 - curGun.getDistance())+50;
+						g.drawRect(starXz, starYz, (enXz-starXz), (enYz-starYz));
+					}
+				}
+				
 		//pixels of the shooting
 		//System.out.println("Duration " + (System.currentTimeMillis()-firstShot));
 		if (firing == true) {
@@ -245,8 +284,9 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 					curGun.setX(p1.getX()+60);
 					curGun.setY(p1.getY()+42);
 					startBulletX = p1.getX()+60;
-
+					startBulletY = p1.getY()+42;
 				}
+				
 				
 				if (Math.abs(startBulletX - curGun.getX()) < curGun.getDistance()) {
 					//curGun.fire(5, 0, "right");
@@ -254,43 +294,78 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 					curGun.fire(40,0,"right");
 					curGun.paint(g);
 					bulDir = "right";
-					
-					for (int j = 0; j < zombies.size() ; j++) {
-						if (curGun.getxEnd() > zombies.get(j).getX() && curGun.getxEnd() < zombies.get(j).getxEnd()) {
-							if (curGun.getyEnd() > zombies.get(j).getY() && curGun.getyEnd() < zombies.get(j).getyEnd() || curGun.getY() > zombies.get(j).getY() && curGun.getY() < zombies.get(j).getyEnd()) {
-								System.out.println("Zombie Hit");
-								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
-								zombies.get(j).setHit(true);
-								zombies.get(j).setX(zombies.get(j).getX()+3);
+					if (!curGun.getName().equals("Rocket")) {
+						for (int j = 0; j < zombies.size() ; j++) {
+							boolean pushback = false;
+							if (curGun.getxEnd() > zombies.get(j).getX() && curGun.getxEnd() < zombies.get(j).getxEnd()) {
+								if (curGun.getyEnd() > zombies.get(j).getY() && curGun.getyEnd() < zombies.get(j).getyEnd() || curGun.getY() > zombies.get(j).getY() && curGun.getY() < zombies.get(j).getyEnd()) {
+									System.out.println("Zombie Hit");
+									zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
+									zombies.get(j).setHit(true);
+									pushback = true;
+								}
 							}
-						}
-						if (curGun.getX() < zombies.get(j).getxEnd() && curGun.getX() > zombies.get(j).getX()) {
-							if (curGun.getyEnd() > zombies.get(j).getY() && curGun.getyEnd() < zombies.get(j).getyEnd() || curGun.getY() > zombies.get(j).getY() && curGun.getY() < zombies.get(j).getyEnd()) {
-								System.out.println("Zombie Hit");
-								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
-								zombies.get(j).setHit(true);
-								zombies.get(j).setX(zombies.get(j).getX()+3);
+							if (curGun.getX() < zombies.get(j).getxEnd() && curGun.getX() > zombies.get(j).getX()) {
+								if (curGun.getyEnd() > zombies.get(j).getY() && curGun.getyEnd() < zombies.get(j).getyEnd() || curGun.getY() > zombies.get(j).getY() && curGun.getY() < zombies.get(j).getyEnd()) {
+									System.out.println("Zombie Hit");
+									zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
+									zombies.get(j).setHit(true);
+									pushback = true;
+								}
 							}
-						}
-						if (curGun.getyEnd() > zombies.get(j).getY() && curGun.getyEnd() < zombies.get(j).getyEnd()) {
-							if (curGun.getxEnd() > zombies.get(j).getX() && curGun.getxEnd() < zombies.get(j).getxEnd() || curGun.getX() < zombies.get(j).getxEnd() && curGun.getX() > zombies.get(j).getX()) {
-								System.out.println("Zombie Hit");
-								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
-								zombies.get(j).setHit(true);
-								zombies.get(j).setX(zombies.get(j).getX()+3);
+							if (curGun.getyEnd() > zombies.get(j).getY() && curGun.getyEnd() < zombies.get(j).getyEnd()) {
+								if (curGun.getxEnd() > zombies.get(j).getX() && curGun.getxEnd() < zombies.get(j).getxEnd() || curGun.getX() < zombies.get(j).getxEnd() && curGun.getX() > zombies.get(j).getX()) {
+									System.out.println("Zombie Hit");
+									zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
+									zombies.get(j).setHit(true);
+									pushback = true;
+								}
 							}
-						}
-						if (curGun.getY() > zombies.get(j).getY() && curGun.getY() < zombies.get(j).getyEnd()) {
-							if (curGun.getxEnd() > zombies.get(j).getX() && curGun.getxEnd() < zombies.get(j).getxEnd() || curGun.getX() < zombies.get(j).getxEnd() && curGun.getX() > zombies.get(j).getX()) {
-								System.out.println("Zombie Hit");
-								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
-								zombies.get(j).setHit(true);
+							if (curGun.getY() > zombies.get(j).getY() && curGun.getY() < zombies.get(j).getyEnd()) {
+								if (curGun.getxEnd() > zombies.get(j).getX() && curGun.getxEnd() < zombies.get(j).getxEnd() || curGun.getX() < zombies.get(j).getxEnd() && curGun.getX() > zombies.get(j).getX()) {
+									System.out.println("Zombie Hit");
+									zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
+									zombies.get(j).setHit(true);
+									pushback = true;
+								}
+							}
+							if ( pushback == true) {
 								zombies.get(j).setX(zombies.get(j).getX()+3);
 							}
 						}
 					}
 					
-				} else {
+			} else {
+					if (curGun.getName().equals("Rocket")) {
+						int starX = (startBulletX + curGun.getDistance())-50;
+						int enX = (startBulletX + curGun.getDistance())+50;
+						int starY = (startBulletY)-50;
+						int enY = (startBulletY)+50;
+						g.drawRect(starX, starY, (enX-starX), (enY-starY));
+						//System.out.println("STARX " + starX + " ENX " + enX + " STARY " + starY + " ENY " + enY);
+					//	System.out.println("CURGUNSTARX " + curGun.getX() + " ENX " + curGun.getxEnd());
+						for (int j = 0; j < zombies.size() ; j++) {
+							if (zombies.get(j).getX() > starX && zombies.get(j).getX() < enX) {
+								System.out.println("IN BOUNDS : ZOMBIE Y S " + zombies.get(j).getY() + " ZOMBIES Y E " +zombies.get(j).getyEnd());
+								if (zombies.get(j).getY() > starY && zombies.get(j).getY() < enY|| zombies.get(j).getyEnd() > starY && zombies.get(j).getyEnd() < enY) {
+									System.out.println("Zombie Hit");
+									zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
+									zombies.get(j).setHit(true);
+									zombies.get(j).setX(zombies.get(j).getX()+3);
+								}
+							}
+							if (zombies.get(j).getxEnd() > starX && zombies.get(j).getxEnd() < enX) {
+								if (zombies.get(j).getY() > starY && zombies.get(j).getY() < enY|| zombies.get(j).getyEnd() > starY && zombies.get(j).getyEnd() < enY) {
+									System.out.println("Zombie Hit");
+									zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
+									zombies.get(j).setHit(true);
+									zombies.get(j).setX(zombies.get(j).getX()+3);
+								}
+							}
+
+						}
+						
+					}
 					firstShot = System.currentTimeMillis();
 					curGun.setAmmo(curGun.getAmmo()-1);
 					startBulletX = 0;
@@ -317,14 +392,15 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 					curGun.fire(-40,0,"left");
 					curGun.paint(g);
 					bulDir = "left";
-
+					if (!curGun.getName().equals("Rocket")) {
 					for (int j = 0; j < zombies.size() ; j++) {
+						boolean pushback = false;
 						if (curGun.getxEnd() > zombies.get(j).getX() && curGun.getxEnd() < zombies.get(j).getxEnd()) {
 							if (curGun.getyEnd() > zombies.get(j).getY() && curGun.getyEnd() < zombies.get(j).getyEnd() || curGun.getY() > zombies.get(j).getY() && curGun.getY() < zombies.get(j).getyEnd()) {
 								System.out.println("Zombie Hit");
 								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 								zombies.get(j).setHit(true);
-								zombies.get(j).setX(zombies.get(j).getX()-3);
+								pushback = true;
 							}
 						}
 						if (curGun.getX() < zombies.get(j).getxEnd() && curGun.getX() > zombies.get(j).getX()) {
@@ -332,7 +408,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 								System.out.println("Zombie Hit");
 								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 								zombies.get(j).setHit(true);
-								zombies.get(j).setX(zombies.get(j).getX()-3);
+								pushback = true;
 							}
 						}
 						if (curGun.getyEnd() > zombies.get(j).getY() && curGun.getyEnd() < zombies.get(j).getyEnd()) {
@@ -340,7 +416,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 								System.out.println("Zombie Hit");
 								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 								zombies.get(j).setHit(true);
-								zombies.get(j).setX(zombies.get(j).getX()-3);
+								pushback = true;
 							}
 						}
 						if (curGun.getY() > zombies.get(j).getY() && curGun.getY() < zombies.get(j).getyEnd()) {
@@ -348,11 +424,45 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 								System.out.println("Zombie Hit");
 								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 								zombies.get(j).setHit(true);
-								zombies.get(j).setX(zombies.get(j).getX()-3);
+								pushback = true;
 							}
 						}
+						if ( pushback == true) {
+							zombies.get(j).setX(zombies.get(j).getX()-3);
+						}
+						
+					}
 					}
 				} else {
+					if (curGun.getName().equals("Rocket")) {
+						int starX = (startBulletX - curGun.getDistance())-50;
+						int enX = (startBulletX - curGun.getDistance())+50;
+						int starY = (startBulletY)-50;
+						int enY = (startBulletY)+50;
+						//System.out.println("STARX " + starX + " ENX " + enX + " STARY " + starY + " ENY " + enY);
+					//	System.out.println("CURGUNSTARX " + curGun.getX() + " ENX " + curGun.getxEnd());
+						for (int j = 0; j < zombies.size() ; j++) {
+							if (zombies.get(j).getX() > starX && zombies.get(j).getX() < enX) {
+								System.out.println("IN BOUNDS : ZOMBIE Y S " + zombies.get(j).getY() + " ZOMBIES Y E " +zombies.get(j).getyEnd());
+								if (zombies.get(j).getY() > starY && zombies.get(j).getY() < enY|| zombies.get(j).getyEnd() > starY && zombies.get(j).getyEnd() < enY) {
+									System.out.println("Zombie Hit");
+									zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
+									zombies.get(j).setHit(true);
+									zombies.get(j).setX(zombies.get(j).getX()+3);
+								}
+							}
+							if (zombies.get(j).getxEnd() > starX && zombies.get(j).getxEnd() < enX) {
+								if (zombies.get(j).getY() > starY && zombies.get(j).getY() < enY|| zombies.get(j).getyEnd() > starY && zombies.get(j).getyEnd() < enY) {
+									System.out.println("Zombie Hit");
+									zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
+									zombies.get(j).setHit(true);
+									zombies.get(j).setX(zombies.get(j).getX()+3);
+								}
+							}
+
+						}
+						
+					}
 					firstShot = System.currentTimeMillis();
 					curGun.setAmmo(curGun.getAmmo()-1);
 					startBulletX = 0;
@@ -384,14 +494,15 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 					curGun.fire(0,40,"down");
 					curGun.paint(g);
 					bulDir = "down";
-
+					if (!curGun.getName().equals("Rocket")) {
 					for (int j = 0; j < zombies.size() ; j++) {
+						boolean pushback = false;
 						if (curGun.getxEnd() > zombies.get(j).getX() && curGun.getxEnd() < zombies.get(j).getxEnd()) {
 							if (curGun.getyEnd() > zombies.get(j).getY() && curGun.getyEnd() < zombies.get(j).getyEnd() || curGun.getY() > zombies.get(j).getY() && curGun.getY() < zombies.get(j).getyEnd()) {
 								System.out.println("Zombie Hit");
 								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 								zombies.get(j).setHit(true);
-								zombies.get(j).setY(zombies.get(j).getY()+3);
+								pushback = true;
 							}
 						}
 						if (curGun.getX() < zombies.get(j).getxEnd() && curGun.getX() > zombies.get(j).getX()) {
@@ -399,7 +510,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 								System.out.println("Zombie Hit");
 								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 								zombies.get(j).setHit(true);
-								zombies.get(j).setY(zombies.get(j).getY()+3);
+								pushback = true;
 							}
 						}
 						if (curGun.getyEnd() > zombies.get(j).getY() && curGun.getyEnd() < zombies.get(j).getyEnd()) {
@@ -407,7 +518,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 								System.out.println("Zombie Hit");
 								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 								zombies.get(j).setHit(true);
-								zombies.get(j).setY(zombies.get(j).getY()+3);
+								pushback = true;
 							}
 						}
 						if (curGun.getY() > zombies.get(j).getY() && curGun.getY() < zombies.get(j).getyEnd()) {
@@ -415,12 +526,46 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 								System.out.println("Zombie Hit");
 								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 								zombies.get(j).setHit(true);
-								zombies.get(j).setY(zombies.get(j).getY()+3);
+								pushback = true;
 							}
 						}
+						if ( pushback == true) {
+							zombies.get(j).setY(zombies.get(j).getY()+3);
+						}
+						
+					}
 					}
 					
 				} else {
+					if (curGun.getName().equals("Rocket")) {
+						int starX = (startBulletX)-50;
+						int enX = (startBulletX )+50;
+						int starY = (startBulletY+ curGun.getDistance())-50;
+						int enY = (startBulletY+ curGun.getDistance())+50;
+						//System.out.println("STARX " + starX + " ENX " + enX + " STARY " + starY + " ENY " + enY);
+					//	System.out.println("CURGUNSTARX " + curGun.getX() + " ENX " + curGun.getxEnd());
+						for (int j = 0; j < zombies.size() ; j++) {
+							if (zombies.get(j).getX() > starX && zombies.get(j).getX() < enX) {
+								System.out.println("IN BOUNDS : ZOMBIE Y S " + zombies.get(j).getY() + " ZOMBIES Y E " +zombies.get(j).getyEnd());
+								if (zombies.get(j).getY() > starY && zombies.get(j).getY() < enY|| zombies.get(j).getyEnd() > starY && zombies.get(j).getyEnd() < enY) {
+									System.out.println("Zombie Hit");
+									zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
+									zombies.get(j).setHit(true);
+									zombies.get(j).setX(zombies.get(j).getX()+3);
+								}
+							}
+							if (zombies.get(j).getxEnd() > starX && zombies.get(j).getxEnd() < enX) {
+								if (zombies.get(j).getY() > starY && zombies.get(j).getY() < enY|| zombies.get(j).getyEnd() > starY && zombies.get(j).getyEnd() < enY) {
+									System.out.println("Zombie Hit");
+									zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
+									zombies.get(j).setHit(true);
+									zombies.get(j).setX(zombies.get(j).getX()+3);
+								}
+							}
+
+						}
+						
+					}
 					firstShot = System.currentTimeMillis();
 					curGun.setAmmo(curGun.getAmmo()-1);
 					startBulletX = 0;
@@ -450,14 +595,15 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 					curGun.fire(0,-40,"up");
 					curGun.paint(g);
 					bulDir = "up";
-
+					if (!curGun.getName().equals("Rocket")) {
 					for (int j = 0; j < zombies.size() ; j++) {
+						boolean pushback = false;
 						if (curGun.getxEnd() > zombies.get(j).getX() && curGun.getxEnd() < zombies.get(j).getxEnd()) {
 							if (curGun.getyEnd() > zombies.get(j).getY() && curGun.getyEnd() < zombies.get(j).getyEnd() || curGun.getY() > zombies.get(j).getY() && curGun.getY() < zombies.get(j).getyEnd()) {
 								System.out.println("Zombie Hit");
 								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 								zombies.get(j).setHit(true);
-								zombies.get(j).setY(zombies.get(j).getY()-3);
+								pushback = true;
 							}
 						}
 						if (curGun.getX() < zombies.get(j).getxEnd() && curGun.getX() > zombies.get(j).getX()) {
@@ -465,7 +611,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 								System.out.println("Zombie Hit");
 								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 								zombies.get(j).setHit(true);
-								zombies.get(j).setY(zombies.get(j).getY()-3);
+								pushback = true;
 							}
 						}
 						if (curGun.getyEnd() > zombies.get(j).getY() && curGun.getyEnd() < zombies.get(j).getyEnd()) {
@@ -473,7 +619,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 								System.out.println("Zombie Hit");
 								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 								zombies.get(j).setHit(true);
-								zombies.get(j).setY(zombies.get(j).getY()-3);
+								pushback = true;
 							}
 						}
 						if (curGun.getY() > zombies.get(j).getY() && curGun.getY() < zombies.get(j).getyEnd()) {
@@ -481,11 +627,44 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 								System.out.println("Zombie Hit");
 								zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 								zombies.get(j).setHit(true);
-								zombies.get(j).setY(zombies.get(j).getY()-3);
+								pushback = true;
 							}
 						}
+						if ( pushback == true) {
+							zombies.get(j).setY(zombies.get(j).getY()-3);
+						}
+					}
 					}
 				} else {
+					if (curGun.getName().equals("Rocket")) {
+						int starX = (startBulletX )-50;
+						int enX = (startBulletX )+50;
+						int starY = (startBulletY-curGun.getDistance())-50;
+						int enY = (startBulletY-curGun.getDistance())+50;
+						//System.out.println("STARX " + starX + " ENX " + enX + " STARY " + starY + " ENY " + enY);
+					//	System.out.println("CURGUNSTARX " + curGun.getX() + " ENX " + curGun.getxEnd());
+						for (int j = 0; j < zombies.size() ; j++) {
+							if (zombies.get(j).getX() > starX && zombies.get(j).getX() < enX) {
+								System.out.println("IN BOUNDS : ZOMBIE Y S " + zombies.get(j).getY() + " ZOMBIES Y E " +zombies.get(j).getyEnd());
+								if (zombies.get(j).getY() > starY && zombies.get(j).getY() < enY|| zombies.get(j).getyEnd() > starY && zombies.get(j).getyEnd() < enY) {
+									System.out.println("Zombie Hit");
+									zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
+									zombies.get(j).setHit(true);
+									zombies.get(j).setX(zombies.get(j).getX()+3);
+								}
+							}
+							if (zombies.get(j).getxEnd() > starX && zombies.get(j).getxEnd() < enX) {
+								if (zombies.get(j).getY() > starY && zombies.get(j).getY() < enY|| zombies.get(j).getyEnd() > starY && zombies.get(j).getyEnd() < enY) {
+									System.out.println("Zombie Hit");
+									zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
+									zombies.get(j).setHit(true);
+									zombies.get(j).setX(zombies.get(j).getX()+3);
+								}
+							}
+
+						}
+						
+					}
 					firstShot = System.currentTimeMillis();
 					curGun.setAmmo(curGun.getAmmo()-1);
 					startBulletX = 0;
@@ -575,6 +754,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 			}
 			
 		}
+		g.drawString("YOUR SCORE: " + score, 700, 100);
 		}
 		
 		
@@ -661,9 +841,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 			p1.setImage("Player-01.png");
 		
 		}
-		if (arg0.getKeyCode() == 32 && System.currentTimeMillis()-firstShot >= fireTime) {
-			firing = true;
-		}
+		
 		if (arg0.getKeyCode() == 44 && gunIndex-1 >= 0 ) {
 			gunIndex--;
 			
