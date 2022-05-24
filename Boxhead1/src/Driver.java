@@ -60,15 +60,15 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 	    int bKey = 0;
 	
 	    for (int ke : keys) {
-	    	if (ke == 65 && inWall(p1.getX()-10,p1.getY()) == false)  
+	    	if (ke == 65 && inWall(p1.getX()-10,p1.getY()) == false && gameOver == false)  
 	    		lKey++;
-	    	if (ke == 87 && inWall(p1.getX(),p1.getY()-10) == false) 
+	    	if (ke == 87 && inWall(p1.getX(),p1.getY()-10) == false && gameOver == false) 
 	    		uKey++;
-	    	if (ke == 68 && inWall(p1.getX()+10,p1.getY()) == false && inWall(p1.getX()+60,p1.getY()) == false)
+	    	if (ke == 68 && inWall(p1.getX()+10,p1.getY()) == false && inWall(p1.getX()+60,p1.getY()) == false && gameOver == false)
 	    		rKey++;
-	    	if (ke == 83&& inWall(p1.getX(),p1.getY()+10) == false && inWall(p1.getX(),p1.getY()+110) == false)
+	    	if (ke == 83&& inWall(p1.getX(),p1.getY()+10) == false && inWall(p1.getX(),p1.getY()+110) == false && gameOver == false)
 	    		bKey++;
-	    	if (ke == 32 && System.currentTimeMillis()-firstShot >= fireTime) 
+	    	if (ke == 32 && System.currentTimeMillis()-firstShot >= fireTime && gameOver == false) 
 	    		firing = true;
 	    }
 	    shiftValsX = (-5*(lKey)) + (5*(rKey));
@@ -695,6 +695,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 		if (indexR != -1) {
 			score+= 100;
 			zombies.remove(indexR);
+			curGun.setKills(curGun.getKills()+1);
 		}
 		/*
 		ArrayList<Integer> deadZombs = new ArrayList<Integer>();
@@ -722,7 +723,10 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 			
 		}
 		
-		gameOver = true;
+		
+		if (p1.getHealth() <= 0 ) 
+			gameOver = true;
+		//gameOver = true;
 		if (gameOver == true) {
 			Font newFont = new Font("Arial",Font.PLAIN,50);
 			g.setFont(newFont);
@@ -873,7 +877,40 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 		if (arg0.getKeyCode() == 46 && gunIndex+1 < guns.size()) {
 			gunIndex++;
 		}
+		if(gameOver == true && arg0.getKeyCode() == 82) {
+			gameOver = false;
+			round = 1;
+			zombies.clear();
+			gameOver = false;
+			shiftValsX = 0;
+			shiftValsY = 0;
+			fireTime = 0;
+			firstShot = 0;
+			gunIndex = 0;
+			startBulletX = 0;
+			p1 = new Player(200,200,"down");
+			m = new Map();
+			firing = false;
+			bulDir = "";
+			// 600, 800
+			devil = new Devil(730, 100);
+			ab.add(new AmmoBox(730,270));
+			ab.add(new AmmoBox(730,470));
+			ab.add(new AmmoBox(730,670));
+			 //zombie code
+			
+			score = 0;
+			
+			spawnZombies();
+			guns.clear();
+			guns.add(new Pistol());
+			
+			
+		}
+
 	}
+
+	
 
 	@Override
 	public void keyReleased(KeyEvent k){

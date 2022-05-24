@@ -27,6 +27,7 @@ public class Guns {
 	private String direction;
 	private int xEnd;
 	private int yEnd;
+	private int kills;
 	private boolean exploding;
 
 	
@@ -37,6 +38,7 @@ public class Guns {
 		damage = 0;
 		recoil = 0;
 		firingRate = 0;
+		kills = 0;
 		distance = 0;
 		startingAmmo = 0;
 		x = 0;
@@ -52,6 +54,7 @@ public class Guns {
 		y = 0;
 		vx = 0;
 		vy = 0;
+		kills = 0;
 		startingAmmo = ammo;
 		this.ammo = ammo;
 		this.damage = damage;
@@ -67,6 +70,14 @@ public class Guns {
 		init(x, y);
 		xEnd = x + (int)(852/0.05);
 		yEnd = y + (int)(178/0.05);
+	}
+
+	public int getKills() {
+		return kills;
+	}
+
+	public void setKills(int kills) {
+		this.kills = kills;
 	}
 
 	public int getxEnd() {
@@ -251,7 +262,7 @@ public class Guns {
 
 class Uzi extends Guns{
 	public Uzi() {
-		super(100,5,2,50,200,"Uzi", getImage("PistolAmmo-01-01.png"));
+		super(100,3,2,50,200,"Uzi", getImage("PistolAmmo-01-01.png"));
 	}
 	
 }
@@ -283,7 +294,7 @@ class Railgun extends Guns{
 
 class Sniper extends Guns{
 	public Sniper() {
-		super(20,200,15,1000,700,"Sniper", getImage("SniperAmmo-01-01.png"));
+		super(20,50,15,1000,700,"Sniper", getImage("SniperAmmo-01-01.png"));
 	}
 	
 }
@@ -299,7 +310,7 @@ class AkFour extends Guns{
 
 class Rocket extends Guns{
 	public Rocket() {
-		super(1000,150,20,3000,300,"Rocket", getImage("RocketAmmo-01.png"));
+		super(10,150,20,3000,300,"Rocket", getImage("RocketAmmo-01.png"));
 	}
 	
 }
