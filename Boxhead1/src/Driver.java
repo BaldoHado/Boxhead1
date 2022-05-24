@@ -29,7 +29,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 	private ArrayList<Guns> guns = new ArrayList<Guns>();
 	private int gunIndex;
 	private int score;
-
+	private boolean gameOver;
 	private boolean firing;
 	private int curDist;
 	private long fireTime;
@@ -58,15 +58,15 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 	    int rKey = 0;
 	    int uKey = 0;
 	    int bKey = 0;
-
+	
 	    for (int ke : keys) {
-	    	if (ke == 65)  
+	    	if (ke == 65 && inWall(p1.getX()-10,p1.getY()) == false)  
 	    		lKey++;
-	    	if (ke == 87) 
+	    	if (ke == 87 && inWall(p1.getX(),p1.getY()-10) == false) 
 	    		uKey++;
-	    	if (ke == 68)
+	    	if (ke == 68 && inWall(p1.getX()+10,p1.getY()) == false && inWall(p1.getX()+60,p1.getY()) == false)
 	    		rKey++;
-	    	if (ke == 83)
+	    	if (ke == 83&& inWall(p1.getX(),p1.getY()+10) == false && inWall(p1.getX(),p1.getY()+110) == false)
 	    		bKey++;
 	    	if (ke == 32 && System.currentTimeMillis()-firstShot >= fireTime) 
 	    		firing = true;
@@ -76,7 +76,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 	    //
 		
 		m.paint(g);
-		
+		g.drawString("Round: " + round, 700, 150);
 		//System.out.println(curGun.getName());
 		p1.setY(p1.getY()+shiftValsY);
 		p1.setX(p1.getX()+shiftValsX);
@@ -225,7 +225,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 						int enXz = (p1.getX()+60 + curGun.getDistance())+50;
 						int starYz = (p1.getY()+42)-50;
 						int enYz = (p1.getY()+42)+50;
-						g.drawRect(starXz, starYz, (enXz-starXz), (enYz-starYz));
+						g.drawRect(starXz, starYz, Math.abs(enXz-starXz), Math.abs(enYz-starYz));
 					}
 				}
 				if (p1.getDirection().equals("left")) {
@@ -234,16 +234,16 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 						int enXz = (p1.getX()- curGun.getDistance())+50;
 						int starYz = (p1.getY()+42)-50;
 						int enYz = (p1.getY()+42)+50;
-						g.drawRect(starXz, starYz, (enXz-starXz), (enYz-starYz));
+						g.drawRect(starXz, starYz, Math.abs(enXz-starXz), Math.abs(enYz-starYz));
 					}
 				}
 				if (p1.getDirection().equals("down")) {
 					if (curGun.getName().equals("Rocket")) {
-						int starXz = (p1.getX())+ 50;
+						int starXz = (p1.getX())- 50;
 						int enXz = (p1.getX())+50;
 						int starYz = (p1.getY()+70 +curGun.getDistance())-50;
 						int enYz = (p1.getY()+70 + curGun.getDistance())+50;
-						g.drawRect(starXz, starYz, (enXz-starXz), (enYz-starYz));
+						g.drawRect(starXz, starYz, Math.abs(enXz-starXz), Math.abs(enYz-starYz));
 					}
 				}
 				if (p1.getDirection().equals("up")) {
@@ -252,7 +252,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 						int enXz = (p1.getX()+5)+50;
 						int starYz = (p1.getY()+30- curGun.getDistance())-50;
 						int enYz = (p1.getY()+30 - curGun.getDistance())+50;
-						g.drawRect(starXz, starYz, (enXz-starXz), (enYz-starYz));
+						g.drawRect(starXz, starYz, Math.abs(enXz-starXz), Math.abs(enYz-starYz));
 					}
 				}
 				
@@ -337,6 +337,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 					
 			} else {
 					if (curGun.getName().equals("Rocket")) {
+						
 						int starX = (startBulletX + curGun.getDistance())-50;
 						int enX = (startBulletX + curGun.getDistance())+50;
 						int starY = (startBulletY)-50;
@@ -352,6 +353,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 									zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 									zombies.get(j).setHit(true);
 									zombies.get(j).setX(zombies.get(j).getX()+3);
+									curGun.explode();
 								}
 							}
 							if (zombies.get(j).getxEnd() > starX && zombies.get(j).getxEnd() < enX) {
@@ -360,6 +362,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 									zombies.get(j).setHP(zombies.get(j).getHP()-curGun.getDamage());
 									zombies.get(j).setHit(true);
 									zombies.get(j).setX(zombies.get(j).getX()+3);
+									curGun.explode();
 								}
 							}
 
@@ -383,7 +386,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 					curGun.setX(p1.getX());
 					curGun.setY(p1.getY()+42);
 					startBulletX = p1.getX();
-					
+					startBulletY = p1.getY()+42;
 				}
 				
 				if (Math.abs(startBulletX - curGun.getX()) < curGun.getDistance()) {
@@ -484,8 +487,8 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 				if (startBulletX == 0) {
 					curGun.setX(p1.getX());
 					curGun.setY(p1.getY()+70);
-					startBulletX = p1.getY();
-
+					startBulletX = p1.getY()+70;
+					startBulletY = p1.getX();
 				}
 				
 				if (Math.abs(startBulletX - curGun.getY()) < curGun.getDistance()) {
@@ -538,10 +541,10 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 					
 				} else {
 					if (curGun.getName().equals("Rocket")) {
-						int starX = (startBulletX)-50;
-						int enX = (startBulletX )+50;
-						int starY = (startBulletY+ curGun.getDistance())-50;
-						int enY = (startBulletY+ curGun.getDistance())+50;
+						int starX = (startBulletY)-50;
+						int enX = (startBulletY )+50;
+						int starY = (startBulletX+ curGun.getDistance())-50;
+						int enY = (startBulletX+ curGun.getDistance())+50;
 						//System.out.println("STARX " + starX + " ENX " + enX + " STARY " + starY + " ENY " + enY);
 					//	System.out.println("CURGUNSTARX " + curGun.getX() + " ENX " + curGun.getxEnd());
 						for (int j = 0; j < zombies.size() ; j++) {
@@ -586,7 +589,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 					curGun.setX(p1.getX()+5);
 					curGun.setY(p1.getY()+30);
 					startBulletX = p1.getY()+30;
-
+					startBulletY = p1.getX()+5;
 				}
 				
 				if (Math.abs(startBulletX - curGun.getY()) < curGun.getDistance()) {
@@ -637,10 +640,10 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 					}
 				} else {
 					if (curGun.getName().equals("Rocket")) {
-						int starX = (startBulletX )-50;
-						int enX = (startBulletX )+50;
-						int starY = (startBulletY-curGun.getDistance())-50;
-						int enY = (startBulletY-curGun.getDistance())+50;
+						int starX = (startBulletY )-50;
+						int enX = (startBulletY )+50;
+						int starY = (startBulletX-curGun.getDistance())-50;
+						int enY = (startBulletX-curGun.getDistance())+50;
 						//System.out.println("STARX " + starX + " ENX " + enX + " STARY " + starY + " ENY " + enY);
 					//	System.out.println("CURGUNSTARX " + curGun.getX() + " ENX " + curGun.getxEnd());
 						for (int j = 0; j < zombies.size() ; j++) {
@@ -712,6 +715,23 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 		
 		}*/
 		
+		if(zombies.size() <= 0) {
+			round++;
+			spawnZombies();
+			
+			
+		}
+		
+		gameOver = true;
+		if (gameOver == true) {
+			Font newFont = new Font("Arial",Font.PLAIN,50);
+			g.setFont(newFont);
+			g.drawString("Game Over",600, 400);
+			g.fillRect(650, 450, 200, 50);
+			g.setColor(Color.white);
+			g.drawString("Restart",660,500);
+		}
+		
 		// Player to Box : HIT DETECTION
 		int removeI = -1; //index of box to remove if the player is found on the box
 		for (int a = 0; a < ab.size(); a++) {
@@ -774,6 +794,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 		p1 = new Player(200,200,"down");
 		m = new Map();
 		firing = false;
+		gameOver = false;
 		bulDir = "";
 		// 600, 800
 		devil = new Devil(730, 100);
@@ -805,6 +826,8 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 	
 	Timer t = new Timer(2, this);
 	
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
@@ -814,6 +837,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 	ArrayList<Integer> keys= new ArrayList<Integer>();
 	@Override
 	public void keyPressed(KeyEvent arg0){
+		//System.out.println(arg0.getKeyCode());
 	    if(!keys.contains(arg0.getKeyCode())){
 	        keys.add(arg0.getKeyCode());
 	    }
@@ -929,6 +953,16 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 		System.out.println(arg0.getKeyCode());
 		
 	}
+	
+	public void spawnZombies() {
+
+		  for(int i = 0; i < round *30; i++) {
+				int rand = (int) (Math.random() * 101) ;
+	        	Zombie temp = new Zombie(800 - rand,0 - i*100);
+	        	zombies.add(temp);
+	        }
+	}
+
 	
 	public boolean inWall(int x, int y) { // needs work
 		if (x <= 75 || x >= 1425 || y < 128 || y > 890) {

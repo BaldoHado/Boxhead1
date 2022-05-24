@@ -16,7 +16,9 @@ public class Guns {
 	private int distance;
 	private String name;
 	private Image img;
+	private Image explosion;
 	private AffineTransform tx;
+	private AffineTransform tx2;
 	private int x;
 	private int y;
 	private int vx;
@@ -25,6 +27,7 @@ public class Guns {
 	private String direction;
 	private int xEnd;
 	private int yEnd;
+	private boolean exploding;
 
 	
 	public Guns() {
@@ -56,8 +59,11 @@ public class Guns {
 		this.firingRate = firingRate;
 		this.distance = distance;
 		this.name = name;
+		exploding = false;
 		img = in;
+		explosion = getImage("explosion.gif");
 		tx = AffineTransform.getTranslateInstance(x, y);
+		tx2 = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
 		xEnd = x + (int)(852/0.05);
 		yEnd = y + (int)(178/0.05);
@@ -97,6 +103,10 @@ public class Guns {
 		this.y = y;
 		update();
 	}
+	
+	public void explode() {
+		exploding = true;
+	}
 
 	public void fire(int vx, int vy, String direction) {
 		x += vx;
@@ -132,6 +142,10 @@ public class Guns {
 			g2.drawImage(img, tx, null);
 			g2.setTransform(old);
 			
+		}
+		
+		if (exploding == true) {
+			g2.drawImage(explosion,tx2,null);
 		}
 		
 		System.out.println("Painting Gun");
@@ -205,7 +219,10 @@ public class Guns {
 
 	private void update() {
 		tx.setToTranslation(x, y);
+		tx2.setToTranslation(x, y);
+		tx2.scale(0.2, 0.2);
 		tx.scale(0.05, 0.05);
+		
 		xEnd = x + (int)(852/0.05);
 		yEnd = y + (int)(178/0.05);
 	}
@@ -213,6 +230,8 @@ public class Guns {
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
 		tx.scale(0.05, 0.05);
+		tx2.setToTranslation(a,b);
+		tx2.scale(0.2, 0.2);
 		xEnd = x + (int)(852/0.05);
 		yEnd = y + (int)(178/0.05);
 	}
