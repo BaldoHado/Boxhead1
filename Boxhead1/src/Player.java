@@ -105,7 +105,7 @@ public class Player {
 	public void paint(Graphics g) {
 
 		g.setColor(Color.green);
-		g.fillRect(500, 500, (int) (health * 3), 30);
+		g.fillRect(600, 800, (int) (health * 3), 30);
 
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawImage(img, tx, null);

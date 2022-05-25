@@ -24,7 +24,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 	private int shiftValsY;
 	private Player p1;
 	private Map m;
-	private Devil devil;
+	//private Devil devil;
 	private ArrayList<AmmoBox> ab = new ArrayList<AmmoBox>();
 	private ArrayList<Guns> guns = new ArrayList<Guns>();
 	private int gunIndex;
@@ -76,12 +76,18 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 	    //
 		
 		m.paint(g);
-		g.drawString("Round: " + round, 700, 150);
+		g.drawString(curGun.getName() + " : " + curGun.getAmmo(),p1.getX(),p1.getY()-30);
+		Font scoreFont = new Font("Arial", Font.PLAIN, 50);
+		Font reloadFont = new Font("Arial", Font.PLAIN, 12);
+		g.setFont(scoreFont);
+		g.setColor(Color.red);
+		g.drawString("Round: " + round, 400, 100);
 		//System.out.println(curGun.getName());
 		p1.setY(p1.getY()+shiftValsY);
 		p1.setX(p1.getX()+shiftValsX);
-		g.drawString(curGun.getName() + " : " + curGun.getAmmo(),p1.getX(),p1.getY()-30);
 		
+		g.setColor(Color.RED);
+		g.drawString("YOUR SCORE: " + score, 900, 100);
 		if (firstShot != 0) {
 //			g.setColor(Color.black);
 //			g.drawRect(p1.getX(),p1.getY()-10,100,10);
@@ -89,8 +95,11 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 			//System.out.println("Fraction : " + (int)(100*((System.currentTimeMillis()-firstShot)/curGun.getFiringRate())));
 			if ((int)(100*((double)(System.currentTimeMillis()-firstShot)/(double)curGun.getFiringRate())) <= 100) 
 				g.drawRect(p1.getX(),p1.getY()-20, (int)(100*((double)(System.currentTimeMillis()-firstShot)/(double)curGun.getFiringRate())), 10);
-			else 
+			else  {
+				g.setColor(Color.BLACK);
+				g.setFont(reloadFont);
 				g.drawString("Fully Reloaded", p1.getX(),p1.getY()-15);
+			}
 			//g.drawString("Time between Shot " + (System.currentTimeMillis()-firstShot), p1.getX(),p1.getY()-10);
 		}
 			
@@ -190,37 +199,44 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 		}
 
 		//devil code
-				if(Math.abs(p1.getX() - devil.getX()) < 150){
-					devil.setVX(0);
+		/*
+		for (int i = 0; i < devils.size(); i++) {
+				if(Math.abs(p1.getX() - devils.get(i).getX()) < 150){
+					devils.get(i).setVX(0);
 				} else {
-					if(p1.getX() < devil.getX() ) {
-					devil.setVX(-1);
+					if(p1.getX() < devils.get(i).getX() ) {
+						devils.get(i).setVX(-1);
 					//System.out.println("move left");
 				}
 				
-				if(p1.getX() > devil.getX()) {
-					devil.setVX(1);
+				if(p1.getX() > devils.get(i).getX()) {
+					devils.get(i).setVX(1);
 					//System.out.println("move right");
 				} 
 				}
-				if(Math.abs(p1.getY() - devil.getY()) < 150){
-					devil.setVY(0);
+				if(Math.abs(p1.getY() - devils.get(i).getY()) < 150){
+					devils.get(i).setVY(0);
 				} else {
-					if(p1.getY() < devil.getY()) {
-					devil.setVY(-1);
+					if(p1.getY() < devils.get(i).getY()) {
+						devils.get(i).setVY(-1);
 					//System.out.println("move up");
 				} 
-				if(p1.getY() > devil.getY()) {
-					devil.setVY(1);
+				if(p1.getY() > devils.get(i).getY()) {
+					devils.get(i).setVY(1);
 					//System.out.println("move down");
 				}
 				}
+		}
 		
-				p1.paint(g);
-				devil.paint(g);
+				
+				for (Devil dev : devils) {
+					dev.paint(g);
+				}*/
+		p1.paint(g);
 				
 				if (p1.getDirection().equals("right")) {
 					if (curGun.getName().equals("Rocket")) {
+						g.setColor(Color.RED);
 						int starXz = (p1.getX()+60 + curGun.getDistance())-50;
 						int enXz = (p1.getX()+60 + curGun.getDistance())+50;
 						int starYz = (p1.getY()+42)-50;
@@ -230,6 +246,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 				}
 				if (p1.getDirection().equals("left")) {
 					if (curGun.getName().equals("Rocket")) {
+						g.setColor(Color.RED);
 						int starXz = (p1.getX() - curGun.getDistance())-50;
 						int enXz = (p1.getX()- curGun.getDistance())+50;
 						int starYz = (p1.getY()+42)-50;
@@ -239,6 +256,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 				}
 				if (p1.getDirection().equals("down")) {
 					if (curGun.getName().equals("Rocket")) {
+						g.setColor(Color.RED);
 						int starXz = (p1.getX())- 50;
 						int enXz = (p1.getX())+50;
 						int starYz = (p1.getY()+70 +curGun.getDistance())-50;
@@ -248,6 +266,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 				}
 				if (p1.getDirection().equals("up")) {
 					if (curGun.getName().equals("Rocket")) {
+						g.setColor(Color.RED);
 						int starXz = (p1.getX()+5 )-50;
 						int enXz = (p1.getX()+5)+50;
 						int starYz = (p1.getY()+30- curGun.getDistance())-50;
@@ -694,6 +713,9 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 		}
 		if (indexR != -1) {
 			score+= 100;
+			if (zombies.get(indexR).getType().equals("Devil")) {
+				ab.add(new AmmoBox((int)zombies.get(indexR).getX(),(int)zombies.get(indexR).getY()));
+			}
 			zombies.remove(indexR);
 			curGun.setKills(curGun.getKills()+1);
 		}
@@ -730,10 +752,11 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 		if (gameOver == true) {
 			Font newFont = new Font("Arial",Font.PLAIN,50);
 			g.setFont(newFont);
+			g.setColor(Color.RED);
 			g.drawString("Game Over",600, 400);
 			g.fillRect(650, 450, 200, 50);
-			g.setColor(Color.white);
-			g.drawString("Restart",660,500);
+			
+			g.drawString("R to Restart",600,450);
 		}
 		
 		// Player to Box : HIT DETECTION
@@ -778,7 +801,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 			}
 			
 		}
-		g.drawString("YOUR SCORE: " + score, 700, 100);
+		
 		}
 		
 		
@@ -801,16 +824,18 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 		gameOver = false;
 		bulDir = "";
 		// 600, 800
-		devil = new Devil(730, 100);
+		//devils.add(new Devil(730, 100));
 		ab.add(new AmmoBox(730,270));
 		ab.add(new AmmoBox(730,470));
 		ab.add(new AmmoBox(730,670));
 		 //zombie code
-		  for(int i = 0; i < round *100; i++) {
+		  for(int i = 0; i < round *30; i++) {
 				int rand = (int) (Math.random() * 101) ;
 	        	Zombie temp = new Zombie(800 - rand,0 - i*100);
 	        	zombies.add(temp);
 	        }
+		  Zombie l = new Devil(730,100,0);
+		  zombies.add(l);
 
         
         //
@@ -893,7 +918,8 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 			firing = false;
 			bulDir = "";
 			// 600, 800
-			devil = new Devil(730, 100);
+			//devils.clear();
+			//devils.add(new Devil(730, 100));
 			ab.add(new AmmoBox(730,270));
 			ab.add(new AmmoBox(730,470));
 			ab.add(new AmmoBox(730,670));
@@ -997,7 +1023,11 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 				int rand = (int) (Math.random() * 101) ;
 	        	Zombie temp = new Zombie(800 - rand,0 - i*100);
 	        	zombies.add(temp);
-	        }
+	      }
+		  for (int i = 0; i <round;i++ ) {
+			  int rand = (int) (Math.random() * 101) ;
+			  //devils.add(new Devil(800 - rand,0 - i*100));
+		  }
 	}
 
 	

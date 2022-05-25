@@ -8,7 +8,7 @@ import java.net.URL;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class Devil {
+public class Devil1 {
 	private int x;
 	private int y;
 	// 29 by 67
@@ -68,7 +68,7 @@ public class Devil {
 		this.height = height;
 	}
 
-	public Devil(int x, int y) {
+	public Devil1(int x, int y) {
 		this.x = x;
 		this.y = y;
 		xEnd = x+ 29;

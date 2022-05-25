@@ -24,8 +24,17 @@ public class Zombie {
 	private AffineTransform tx;
 	private AffineTransform tx2;
 	private boolean isHit;
+	private String type;
 	
 	
+	public Image getImg() {
+		return img;
+	}
+
+	public void setImg(Image img) {
+		this.img = img;
+	}
+
 	public boolean isHit() {
 		return isHit;
 	}
@@ -101,6 +110,14 @@ public class Zombie {
 		this.height = height;
 	}
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public Zombie(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -113,6 +130,23 @@ public class Zombie {
 		tx = AffineTransform.getTranslateInstance(x, y);
 		tx2 =  AffineTransform.getTranslateInstance(x, y);
 		init(x,y); 	
+		type = "Zombie";
+		
+		
+	}
+	public Zombie(int x, int y, int z) {
+		this.x = x;
+		this.y = y;
+		xEnd = x + 56;
+		yEnd = y + 94;
+		HP = 100;
+		isHit = false;
+		img = getImage("Devil-01.png");
+		img2 = getImage("splatter.gif");
+		tx = AffineTransform.getTranslateInstance(x, y);
+		tx2 =  AffineTransform.getTranslateInstance(x, y);
+		init(x,y); 	
+		type = "Devil";
 		
 		
 	}
@@ -156,7 +190,7 @@ public class Zombie {
 		yEnd = y + 94;
 	}
 	
-	private Image getImage(String path) {
+	protected static Image getImage(String path) {
 		Image tempImage = null;
 		try {
 			URL imageURL = Zombie.class.getResource(path);
@@ -169,6 +203,29 @@ public class Zombie {
 	
 	
 }
+
+ class Devil extends Zombie {
+
+	// 29 by 67
+
+	public Devil(int x, int y, int z) {
+		super(x,y, 0);
+		//Image img = getImage("Devil.png"); 
+		super.setyEnd(y+67);
+		super.setxEnd(x+29);
+		super.setHP(200);
+		
+	}
+	
+	
+	
+	
+	
+}
+
+
+
+
 
 
 
