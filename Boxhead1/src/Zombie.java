@@ -103,7 +103,7 @@ public class Zombie {
 	}
 
 	public int getHeight() {
-		return height;
+		return height; 
 	}
 
 	public void setHeight(int height) {
