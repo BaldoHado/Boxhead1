@@ -20,6 +20,7 @@ The zombies and devils both follow the player around the map. They can only atta
 <h3> Technologies Used </h3>
 We coded the project with Java and made use of JFrame, KeyListener, ImageIcon, and Graphics. These technologies were used to create the map of the game and allow for graphics to be displayed. KeyListener allowed us to implement player movement throughout the map and ImageIcon gave us the ability to use our images in the game. We used Adobe Illustator to create all of the graphics, most of them being based off the original game of Boxhead (no longer playable due to flash being unsupported). 
 
+<h3> Challenges Faced </h3>
 
 
 2. Project Description
