@@ -715,6 +715,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 			score+= 100;
 			if (zombies.get(indexR).getType().equals("Devil")) {
 				ab.add(new AmmoBox((int)zombies.get(indexR).getX(),(int)zombies.get(indexR).getY()));
+				score+=400;
 			}
 			zombies.remove(indexR);
 			curGun.setKills(curGun.getKills()+1);
