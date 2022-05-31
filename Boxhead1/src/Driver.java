@@ -910,7 +910,7 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 			gameOver = false;
 			shiftValsX = 0;
 			shiftValsY = 0;
-			fireTime = 0;
+			fireTime = 0; 
 			firstShot = 0;
 			gunIndex = 0;
 			startBulletX = 0;
@@ -918,9 +918,11 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 			m = new Map();
 			firing = false;
 			bulDir = "";
+			
 			// 600, 800
 			//devils.clear();
 			//devils.add(new Devil(730, 100));
+			ab.clear();
 			ab.add(new AmmoBox(730,270));
 			ab.add(new AmmoBox(730,470));
 			ab.add(new AmmoBox(730,670));
@@ -1026,8 +1028,8 @@ public class Driver extends JPanel implements KeyListener, ActionListener{
 	        	zombies.add(temp);
 	      }
 		  for (int i = 0; i <round;i++ ) {
-			  int rand = (int) (Math.random() * 101) ;
-			  //devils.add(new Devil(800 - rand,0 - i*100));
+			  Zombie l = new Devil(730,100,0);
+			  zombies.add(l);
 		  }
 	}
 
