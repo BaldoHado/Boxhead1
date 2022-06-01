@@ -21,28 +21,16 @@ The zombies and devils both follow the player around the map. They can only atta
 We coded the project with Java and made use of JFrame, KeyListener, ImageIcon, and Graphics. These technologies were used to create the map of the game and allow for graphics to be displayed. KeyListener allowed us to implement player movement throughout the map and ImageIcon gave us the ability to use our images in the game. We used Adobe Illustator to create all of the graphics, most of them being based off the original game of Boxhead (no longer playable due to flash being unsupported). 
 
 <h3> Challenges Faced </h3>
+Gun hit detection: It was extremely difficult because initially, we made the images all different sizes, so the hit detection we coded was completely off. We had to redraw and resize all images so that we could code the hit detection all for the same size of image. Redrawing the images was hard because some ammo would look weird if stretched out.
+Rocket Launcher: The rocket launcher is a gun much different from the other guns because it has the ability to blow up an area and inflict AOE damage. Instead of applying the hit detection we had for all the other guns to the rocket, we had to completely recode it. It was difficult because we had to form an imaginary rectangle and code the hit detection around that area. Also,  we had to make sure that the rocket didn’t damage any zombies as it travelled to the rectangle: it would only damage zombies in the rectangle. We practically had to nullify the previous code that damaged any zombies that were hit during the bullet’s travel. 
+Devil: Initially we made two separate classes: zombies and devils. We started with a zombie ArrayList and a single devil object because we weren’t sure how the game would work yet. At the end, we realized we wanted multiple zombies as the rounds increased. However, all the code for the devil was coded for the single object. Instead of tediously replacing each devil code with a traversal of the new devil ArrayList, we merged the devil class as a child class of the parent Zombie class. This was also difficult because we now had devil objects in the zombie ArrayList so we had to add if statements for every traversal to make sure we weren’t changing the devil. 
 
+<h3>How to Install and Run the Project</h3>
+Make sure to have Java installed, and download the game file. Open it, and enjoyy!
 
-2. Project Description
-What your application does,
-Why you used the technologies you used,
-Some of the challenges you faced and features you hope to implement in the future.
+<h3> Credits </h3>
 
-4. How to Install and Run the Project
-If you are working on a project that a user needs to install or run locally in a machine like a "POS", you should include the steps required to install your project and also the required dependencies if any.
-Provide a step-by-step description of how to get the development environment set and running.
+Adam Ta - https://github.com/BaldoHado
+Luke Zheng - https://github.com/Lux101
 
-5. How to Use the Project
-Provide instructions and examples so users/contributors can use the project. This will make it easy for them in case they encounter a problem – they will always have a place to reference what is expected.
-You can also make use of visual aids by including materials like screenshots to show examples of the running project and also the structure and design principles used in your project.
-Also if your project will require authentication like passwords or usernames, this is a good section to include the credentials.
-
-6. Include Credits
-If you worked on the project as a team or an organization, list your collaborators/team members. You should also include links to their GitHub profiles and social media too.
-This is just a way to show your appreciation and also to help others get a first hand copy of the project.
-
-7. Add a License
-For most README files, this is usually considered the last part. It lets other developers know what they can and cannot do with your project.
-We have different types of licenses depending on the kind of project you are working on. Depending on the one you will choose it will determine the contributions your project gets.
-The most common one is the GPL License which allows other to make modification to your code and use it for commercial purposes. If you need help choosing a license, use check out this link: https://choosealicense.com/
-Up to this point what we have covered are the minimum requirements for a good README. But you might also want to consider adding the following sections to make it more eye catching and interactive.
+]
